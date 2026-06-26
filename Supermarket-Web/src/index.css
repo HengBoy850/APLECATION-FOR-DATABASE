@@ -1,0 +1,219 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+@import "tailwindcss";
+@plugin "flowbite/plugin";
+@source "../node_modules/flowbite-react";
+
+
+ @layer base {
+  body {
+    @apply bg-white text-gray-900 font-sans;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+ 
+
+.ribbon {
+  position: relative;
+}
+.ribbon::after {
+  content: attr(data-ribbon);
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #FF5A3C;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 50px;
+  z-index: 2;
+  letter-spacing: 0.2px;
+}
+
+@keyframes categoryScroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-category-scroll {
+  animation: categoryScroll 25s linear infinite;
+}
+
+.animate-category-scroll:hover {
+  animation-play-state: paused;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+ */
+
+
+
+ /* ── Font Imports ───────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+
+@import "tailwindcss";
+@plugin "flowbite/plugin";
+@source "../node_modules/flowbite-react";
+
+@theme {
+  --color-brand: #1A7A4A;
+  --color-brand-dark: #14633c;
+
+  --color-accent: #FF6B4A;
+  --color-accent-dark: #e85b3d;
+
+  --color-line: #E5E7EB;
+
+  --color-ink: #1C2B20;
+  --color-ink-faint: #94A3B8;
+
+  --shadow-card: 0 4px 12px rgba(0,0,0,0.08);
+  --shadow-btn: 0 4px 12px rgba(26,122,74,0.25);
+  --shadow-btn-coral: 0 4px 12px rgba(255,107,74,0.25);
+}
+
+
+/* ── Base Reset ─────────────────────────────────────────────────── */
+@layer base {
+  html {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: #F4FAF6;
+    color: #1C2B20;
+    min-height: 100dvh;
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Remove default scrollbar from category strips */
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* ── Component Layer ─────────────────────────────────────────────── */
+@layer components {
+
+  /* ── Product Ribbon (discount badge) ─────────────────────────── */
+  .ribbon {
+    position: relative;
+  }
+  .ribbon::before {
+    content: attr(data-ribbon);
+    position: absolute;
+    top: 10px;
+    left: -2px;
+    z-index: 10;
+    background: linear-gradient(135deg, #FF6B4A, #F5A623);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    padding: 3px 8px 3px 6px;
+    border-radius: 0 99px 99px 0;
+    box-shadow: 0 2px 6px rgba(255,107,74,0.40);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* ── Skeleton shimmer ─────────────────────────────────────────── */
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      #e8f0eb 0%,
+      #f4faf6 40%,
+      #e8f0eb 80%
+    );
+    background-size: 800px 100%;
+    animation: shimmer 1.6s infinite linear;
+  }
+
+  /* ── Input focus ring ─────────────────────────────────────────── */
+  .input-base {
+    @apply w-full px-4 py-3 border border-line rounded-2xl bg-white text-sm text-ink
+           focus:border-brand focus:ring-2 focus:ring-brand/15 outline-none
+           transition-all duration-200 placeholder:text-ink-faint;
+  }
+
+  /* ── Primary button ───────────────────────────────────────────── */
+  .btn-primary {
+    @apply w-full bg-brand text-white font-bold py-3.5 rounded-full
+           shadow-btn hover:bg-brand-dark active:scale-[0.98]
+           transition-all duration-200 flex items-center justify-center gap-2;
+  }
+
+  /* ── Coral / CTA button ───────────────────────────────────────── */
+  .btn-coral {
+    @apply w-full bg-accent text-white font-bold py-3.5 rounded-full
+           shadow-btn-coral hover:bg-accent-dark active:scale-[0.98]
+           transition-all duration-200 flex items-center justify-center gap-2;
+  }
+
+  /* ── Card surface ─────────────────────────────────────────────── */
+  .card-surface {
+    @apply bg-white rounded-3xl shadow-card border border-line/60;
+  }
+
+  /* ── Section label ────────────────────────────────────────────── */
+  .section-label {
+    @apply text-[10px] font-bold text-ink-faint uppercase tracking-widest
+           flex items-center gap-1.5 mb-3;
+  }
+
+  /* ── Pill badge ───────────────────────────────────────────────── */
+  .pill-badge {
+    @apply text-xs font-semibold px-3 py-1 rounded-full capitalize;
+  }
+}
+
+/* ── Utilities Layer ─────────────────────────────────────────────── */
+@layer utilities {
+
+  /* Glass morphism panel */
+  .glass {
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+
+  /* Inset border trick — avoids layout shift */
+  .ring-inset-brand {
+    box-shadow: inset 0 0 0 2px #1A7A4A;
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
