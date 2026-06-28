@@ -35,30 +35,46 @@ export default function Settings() {
   };
 
   const handleSaveProfile = () => {
-    if (!profile.name || !profile.email) {
-      alert("Name and email are required");
-      return;
-    }
+  if (!profile.name || !profile.email) {
+    alert("Name and email are required");
+    return;
+  }
 
-    const formData = new FormData();
-    formData.append("name", profile.name);
-    formData.append("email", profile.email);
-    formData.append("phone", profile.phone || "");
-    formData.append("address", profile.address || "");
-    formData.append("role", profile.role);
-    formData.append("status", profile.status);
-    if (imageFile) formData.append("image", imageFile);
+  const formData = new FormData();
+  formData.append("name", profile.name);
+  formData.append("email", profile.email);
+  formData.append("phone", profile.phone || "");
+  formData.append("address", profile.address || "");
+  formData.append("role", profile.role);
+  formData.append("status", profile.status);
+  if (imageFile) formData.append("image", imageFile);
 
-    fetch(`${API_URL}/${currentUserID}`, { method: "PUT", body: formData })
-      .then((res) => res.json())
-      .then((data) => {
-        alert(data.message);
-        // Update localStorage so sidebar/header reflects new name/image
-        const updatedUser = { ...storedUser, ...profile };
-        localStorage.setItem("user", JSON.stringify(updatedUser));
-      })
-      .catch((err) => console.log(err));
-  };
+  fetch(`${API_URL}/${currentUserID}`, { method: "PUT", body: formData })
+    .then((res) => res.json())
+    .then((data) => {
+      alert(data.message);
+
+      // Re-fetch the updated user so we get the real image filename from DB
+      return fetch(`${API_URL}/${currentUserID}`)
+        .then((res) => res.json())
+        .then((updatedProfile) => {
+          setProfile(updatedProfile);
+
+          // Sync localStorage with fresh data
+          const updatedUser = {
+            ...storedUser,
+            name:  updatedProfile.name,
+            email: updatedProfile.email,
+            image: updatedProfile.image,   // ← real filename from server
+          };
+          localStorage.setItem("user", JSON.stringify(updatedUser));
+
+          // Tell Navbar to re-read localStorage
+          window.dispatchEvent(new Event("userUpdated"));
+        });
+    })
+    .catch((err) => console.log(err));
+};
 
   const handleChangePassword = () => {
     if (!currentPassword || !newPassword || !confirmPassword) {

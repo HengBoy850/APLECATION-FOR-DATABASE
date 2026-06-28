@@ -594,3 +594,244 @@ export default function Login() {
     </div>
   );
 }
+
+// import { useState } from "react";
+// import { useNavigate } from "react-router-dom";
+// import axios from "axios";
+
+// export default function Login() {
+//   const [email, setEmail]       = useState("");
+//   const [password, setPassword] = useState("");
+//   const [error, setError]       = useState("");
+//   const [loading, setLoading]   = useState(false);
+//   const navigate = useNavigate();
+
+//   const handleLogin = async (e) => {
+//     e.preventDefault();
+//     setError("");
+//     setLoading(true);
+//     try {
+//       const res = await axios.post(
+//         "http://172.20.10.14:8081/api/users/login",
+//         { email, password }
+//       );
+//       if (!res.data.user) { setError("Invalid response from server"); setLoading(false); return; }
+//       const user = res.data.user;
+//       localStorage.setItem("user", JSON.stringify({
+//         userID: user.userID, name: user.name,
+//         email: user.email, role: user.role, image: user.image,
+//       }));
+//       navigate("/dashboard");
+//     } catch (err) {
+//       setError(err.response?.data?.message || "Invalid email or password");
+//       setLoading(false);
+//     }
+//   };
+
+//   return (
+//     <div style={{
+//       minHeight: "100vh",
+//       display: "flex",
+//       alignItems: "center",
+//       justifyContent: "center",
+//       fontFamily: "Georgia, serif",
+//       position: "relative",
+//       overflow: "hidden",
+//     }}>
+
+//       {/* ── Background VIDEO ── */}
+//       <video
+//         autoPlay
+//         loop
+//         muted
+//         playsInline
+//         style={{
+//           position: "absolute",
+//           inset: 0,
+//           width: "100%",
+//           height: "100%",
+//           objectFit: "cover",
+//           filter: "brightness(0.45)",
+//           zIndex: 0,
+//         }}
+//       >
+//         {/*
+//           Replace this src with your own video URL.
+//           Free supermarket/grocery videos from Pexels (download & host yourself):
+//           https://www.pexels.com/search/videos/supermarket/
+          
+//           Example using a publicly hosted .mp4:
+//         */}
+//         <source
+//           src="/12655226_3834_2160_30fps.mp4"
+//           type="video/mp4"
+//         />
+//       </video>
+
+//       {/* ── Dark overlay ── */}
+//       <div style={{
+//         position: "absolute", inset: 0,
+//         background: "linear-gradient(135deg, rgba(43,42,40,0.6) 0%, rgba(43,42,40,0.3) 100%)",
+//         zIndex: 1,
+//       }} />
+
+//       {/* ── Branding bottom-left ── */}
+//       <div style={{
+//         position: "absolute", bottom: 36, left: 40,
+//         zIndex: 3, display: "flex", alignItems: "center", gap: 12,
+//       }}>
+//         <div style={{
+//           width: 40, height: 40, borderRadius: 9,
+//           background: "#C7A77B", display: "flex",
+//           alignItems: "center", justifyContent: "center",
+//           fontWeight: 700, fontSize: 15, color: "#2B2A28",
+//         }}>SM</div>
+//         <div>
+//           <div style={{ color: "#F7F5F0", fontWeight: 700, fontSize: 15, lineHeight: 1.2 }}>Supermarket</div>
+//           <div style={{ color: "#C7A77B", fontSize: 11, fontFamily: "sans-serif" }}>Management System</div>
+//         </div>
+//       </div>
+
+//       {/* ── Login card ── */}
+//       <div style={{
+//         position: "relative", zIndex: 2,
+//         width: "100%", maxWidth: 420,
+//         margin: "0 16px",
+//         background: "rgba(255,255,255,0.97)",
+//         borderRadius: 16,
+//         padding: "40px 36px",
+//         boxShadow: "0 24px 64px rgba(0,0,0,0.35)",
+//       }}>
+
+//         {/* Card header */}
+//         <div style={{ textAlign: "center", marginBottom: 28 }}>
+//           <div style={{
+//             display: "inline-flex", alignItems: "center", justifyContent: "center",
+//             width: 48, height: 48, borderRadius: 12,
+//             background: "#2B2A28", marginBottom: 16,
+//             fontWeight: 700, fontSize: 16, color: "#C7A77B",
+//           }}>SM</div>
+//           <h2 style={{
+//             color: "#2B2A28", fontSize: 24, fontWeight: 700,
+//             margin: "0 0 6px",
+//           }}>Welcome back</h2>
+//           <p style={{
+//             color: "#A39A8B", fontSize: 13, fontFamily: "sans-serif", margin: 0,
+//           }}>Sign in to your account to continue</p>
+//         </div>
+
+//         {/* Error */}
+//         {error && (
+//           <div style={{
+//             background: "#FEF2F2", border: "1px solid #FCA5A5",
+//             color: "#B91C1C", borderRadius: 8,
+//             padding: "10px 14px", fontSize: 13,
+//             fontFamily: "sans-serif", marginBottom: 20,
+//             display: "flex", alignItems: "center", gap: 8,
+//           }}>
+//             <span style={{ fontSize: 16 }}>⚠</span> {error}
+//           </div>
+//         )}
+
+//         <form onSubmit={handleLogin}>
+
+//           {/* Email */}
+//           <div style={{ marginBottom: 16 }}>
+//             <label style={{
+//               display: "block", fontSize: 13, fontWeight: 600,
+//               color: "#2B2A28", marginBottom: 6, fontFamily: "sans-serif",
+//             }}>Email address</label>
+//             <input
+//               type="email" required placeholder="you@example.com"
+//               value={email} onChange={(e) => setEmail(e.target.value)}
+//               style={{
+//                 width: "100%", boxSizing: "border-box",
+//                 padding: "11px 14px", borderRadius: 8,
+//                 border: "1.5px solid #E7E2D8",
+//                 background: "#FAFAF8", fontSize: 14,
+//                 fontFamily: "sans-serif", color: "#2B2A28",
+//                 outline: "none", transition: "border-color .15s",
+//               }}
+//               onFocus={(e) => e.target.style.borderColor = "#C7A77B"}
+//               onBlur={(e) => e.target.style.borderColor = "#E7E2D8"}
+//             />
+//           </div>
+
+//           {/* Password */}
+//           <div style={{ marginBottom: 24 }}>
+//             <label style={{
+//               display: "block", fontSize: 13, fontWeight: 600,
+//               color: "#2B2A28", marginBottom: 6, fontFamily: "sans-serif",
+//             }}>Password</label>
+//             <input
+//               type="password" required placeholder="••••••••"
+//               value={password} onChange={(e) => setPassword(e.target.value)}
+//               style={{
+//                 width: "100%", boxSizing: "border-box",
+//                 padding: "11px 14px", borderRadius: 8,
+//                 border: "1.5px solid #E7E2D8",
+//                 background: "#FAFAF8", fontSize: 14,
+//                 fontFamily: "sans-serif", color: "#2B2A28",
+//                 outline: "none", transition: "border-color .15s",
+//               }}
+//               onFocus={(e) => e.target.style.borderColor = "#C7A77B"}
+//               onBlur={(e) => e.target.style.borderColor = "#E7E2D8"}
+//             />
+//           </div>
+
+//           {/* Submit */}
+//           <button
+//             type="submit" disabled={loading}
+//             style={{
+//               width: "100%", padding: "12px",
+//               background: loading ? "#A39A8B" : "#2B2A28",
+//               color: "#F7F5F0", border: "none",
+//               borderRadius: 8, fontSize: 15,
+//               fontWeight: 600, fontFamily: "sans-serif",
+//               cursor: loading ? "not-allowed" : "pointer",
+//               transition: "background .15s",
+//             }}
+//             onMouseEnter={(e) => { if (!loading) e.target.style.background = "#C7A77B"; e.target.style.color = "#2B2A28"; }}
+//             onMouseLeave={(e) => { if (!loading) e.target.style.background = "#2B2A28"; e.target.style.color = "#F7F5F0"; }}
+//           >
+//             {loading ? "Signing in…" : "Sign in"}
+//           </button>
+//         </form>
+
+//         {/* Divider */}
+//         <div style={{
+//           margin: "24px 0 0",
+//           borderTop: "1px solid #E7E2D8",
+//           paddingTop: 20,
+//           display: "flex", justifyContent: "center", gap: 20,
+//         }}>
+//           {["POS Sales", "Web Orders", "Reports"].map((t) => (
+//             <div key={t} style={{
+//               display: "flex", alignItems: "center", gap: 5,
+//               color: "#A39A8B", fontSize: 11, fontFamily: "sans-serif",
+//             }}>
+//               <span style={{
+//                 width: 5, height: 5, borderRadius: "50%",
+//                 background: "#C7A77B", display: "inline-block",
+//               }} />
+//               {t}
+//             </div>
+//           ))}
+//         </div>
+
+//         <p style={{
+//           textAlign: "center", fontSize: 13,
+//           color: "#A39A8B", fontFamily: "sans-serif", marginTop: 16,
+//         }}>
+//           Don't have an account?{" "}
+//           <span
+//             onClick={() => navigate("/register")}
+//             style={{ color: "#8A5A2B", fontWeight: 600, cursor: "pointer", textDecoration: "underline" }}
+//           >
+//             Register as cashier
+//           </span>
+//         </p>
+//       </div>
+//     </div>
+//   );
+// }
